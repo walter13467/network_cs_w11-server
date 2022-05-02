@@ -67,6 +67,11 @@ namespace WindowsFormsApp1
                     switch (Cmd)                                          //依據命令碼執行功能
                     {
                         case "0":                    //有新使用者上線：新增使用者到名單中
+                            if (HT.Contains(Str))
+                            {
+                                SendNameDuplicate(ref Sck);
+                                return;
+                            }
                             HT.Add(Str, Sck);        //連線加入雜湊表，Key:使用者，Value:連線物件(Socket)
                             listBox1.Items.Add(Str); //加入上線者名單
                             break;
@@ -124,6 +129,13 @@ namespace WindowsFormsApp1
             byte[] B = Encoding.Default.GetBytes(Str);
             Socket Sck = (Socket)HT[user];
             Sck.Send(B, 0, B.Length, SocketFlags.None);
+        }
+
+        private void SendNameDuplicate(ref Socket Sck)
+        {
+            byte[] B = Encoding.Default.GetBytes("名稱已有人使用，請別的名字");
+            Sck.Send(B, 0, B.Length, SocketFlags.None);
+            Sck.Dispose();
         }
 
         private void SendAll(string Str)

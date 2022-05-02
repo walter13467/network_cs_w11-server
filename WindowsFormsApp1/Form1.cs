@@ -133,7 +133,7 @@ namespace WindowsFormsApp1
 
         private void SendNameDuplicate(ref Socket Sck)
         {
-            byte[] B = Encoding.Default.GetBytes("名稱已有人使用，請別的名字");
+            byte[] B = Encoding.Default.GetBytes("D名稱已有人使用，請別的名字");
             Sck.Send(B, 0, B.Length, SocketFlags.None);
             Sck.Dispose();
         }
